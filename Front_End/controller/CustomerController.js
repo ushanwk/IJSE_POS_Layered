@@ -1,9 +1,11 @@
 let link = "http://localhost:8080/Back_End_Web_exploded/customer";
 
+
+loadAll();
+
 function loadAll(){
 
     $.ajax({
-
         url : link,
         success : function(res){
             let customers = $(res);
@@ -23,4 +25,36 @@ function loadAll(){
 
 }
 
-loadAll();
+$('#btnCusGetAll').click(function(){
+    loadAll();
+});
+
+
+
+$('#btnCusAdd').click(function(){
+
+    let cusId = $('#txtCustomerID').val();
+    let cusName = $('#txtCustomerName').val();
+    let cusAddress = $('#txtCustomerAddress').val();
+    let cusSalary = $('#txtCustomerSalary').val();
+
+    console.log(id + name + address + salary);
+
+    let customer = {
+        id : cusId,
+        name : cusName,
+        address : cusAddress,
+        salary : cusSalary
+    }
+
+    $.ajax({
+        url : link,
+        method : "post",
+        data : JSON.stringify(customer),
+        contentType : 'application/json',
+        success : function() {
+            loadAll();
+        }
+    })
+
+});

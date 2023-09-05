@@ -52,7 +52,6 @@ function setView(viewOb) {
     clearAll();
     viewOb.css("display", "block");
     saveLastView(viewOb.get(0).id);
-    console.log(viewOb.get(0).id);
 }
 
 //bind events
