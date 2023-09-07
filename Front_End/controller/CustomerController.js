@@ -25,6 +25,16 @@ function loadAll(){
 
 }
 
+function clearField(){
+    $('#txtCustomerID').val("");
+    $('#txtCustomerName').val("");
+    $('#txtCustomerAddress').val("");
+    $('#txtCustomerSalary').val("");
+
+}
+
+
+
 $('#btnCusGetAll').click(function(){
     loadAll();
 });
@@ -68,10 +78,10 @@ $('#btnCusUpdate').click(function(){
         method : "put",
         data : JSON.stringify(customer),
         contentType : 'application/json',
-        success:function(e){
+        success:function(){
             loadAll();
         },
-        error : function() {
+        error : function(){
             loadAll();
         }
     });
@@ -85,11 +95,16 @@ $('#btnCusDelete').click(function(){
     $.ajax({
         url: link + '?cusID=' + cusId,
         method: "delete",
-        success: function (resp) {
+        success: function(){
             loadAll();
         },
-        error: function (error) {
+        error: function(){
             loadAll();
         }
     });
+});
+
+
+$('#btnCusClear').click(function(){
+    clearField();
 });
