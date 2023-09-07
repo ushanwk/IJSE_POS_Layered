@@ -18,14 +18,14 @@ public class CustomerServlet extends HttpServlet {
 
         try(PrintWriter writer = resp.getWriter()) {
 
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaeePosApp", "root", "ushan1234");
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Customer");
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
             resp.addHeader("Access-Control-Allow-Origin","*");
             resp.addHeader("Content-Type","application/json");
+
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaeePosApp", "root", "ushan1234");
+
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Customer");
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             JsonArrayBuilder allCustomers = Json.createArrayBuilder();
 

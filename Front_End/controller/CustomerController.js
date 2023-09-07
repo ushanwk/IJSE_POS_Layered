@@ -1,12 +1,12 @@
-let link = "http://localhost:8080/Back_End_Web_exploded/customer";
+let linkCus = "http://localhost:8080/Back_End_Web_exploded/customer";
 
 
-loadAll();
+loadAllCus();
 
-function loadAll(){
+function loadAllCus(){
 
     $.ajax({
-        url : link,
+        url : linkCus,
         success : function(res){
             let customers = $(res);
             $('#tblCustomer').empty();
@@ -30,13 +30,12 @@ function clearField(){
     $('#txtCustomerName').val("");
     $('#txtCustomerAddress').val("");
     $('#txtCustomerSalary').val("");
-
 }
 
 
 
 $('#btnCusGetAll').click(function(){
-    loadAll();
+    loadAllCus();
 });
 
 
@@ -45,14 +44,14 @@ $('#btnCusAdd').click(function(){
     let data = $('#customerForm').serialize();
 
     $.ajax({
-        url : link,
+        url : linkCus,
         method : "post",
         data : data,
         success : function() {
-            loadAll();
+            loadAllCus();
         },
         error : function() {
-            loadAll();
+            loadAllCus();
         }
     });
 
@@ -74,7 +73,7 @@ $('#btnCusUpdate').click(function(){
     }
 
     $.ajax({
-        url : link,
+        url : linkCus,
         method : "put",
         data : JSON.stringify(customer),
         contentType : 'application/json',
@@ -82,7 +81,7 @@ $('#btnCusUpdate').click(function(){
             loadAll();
         },
         error : function(){
-            loadAll();
+            loadAllCus();
         }
     });
 
@@ -93,13 +92,13 @@ $('#btnCusDelete').click(function(){
     let cusId = $('#txtCustomerID').val();
 
     $.ajax({
-        url: link + '?cusID=' + cusId,
+        url: linkCus + '?cusID=' + cusId,
         method: "delete",
         success: function(){
-            loadAll();
+            loadAllCus();
         },
         error: function(){
-            loadAll();
+            loadAllCus();
         }
     });
 });
