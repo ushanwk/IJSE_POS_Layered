@@ -32,29 +32,38 @@ $('#btnCusGetAll').click(function(){
 
 
 $('#btnCusAdd').click(function(){
-
-    let cusId = $('#txtCustomerID').val();
-    let cusName = $('#txtCustomerName').val();
-    let cusAddress = $('#txtCustomerAddress').val();
-    let cusSalary = $('#txtCustomerSalary').val();
-
-    console.log(id + name + address + salary);
-
-    let customer = {
-        id : cusId,
-        name : cusName,
-        address : cusAddress,
-        salary : cusSalary
-    }
+    let data = $('#customerForm').serialize();
 
     $.ajax({
         url : link,
         method : "post",
-        data : JSON.stringify(customer),
-        contentType : 'application/json',
+        data : data,
         success : function() {
             loadAll();
+        },
+        error : function() {
+            loadAll();
         }
-    })
+    });
 
+});
+
+
+
+$('#btnCusUpdate').click(function(){
+    let data = $('#customerForm').serialize();
+
+    console.log(data)
+
+    $.ajax({
+        url : link,
+        method : "put",
+        data : data,
+        success : function() {
+            loadAll();
+        },
+        error : function() {
+            loadAll();
+        }
+    });
 });
