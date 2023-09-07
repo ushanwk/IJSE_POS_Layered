@@ -77,3 +77,19 @@ $('#btnCusUpdate').click(function(){
     });
 
 });
+
+
+$('#btnCusDelete').click(function(){
+    let cusId = $('#txtCustomerID').val();
+
+    $.ajax({
+        url: link + '?cusID=' + cusId,
+        method: "delete",
+        success: function (resp) {
+            loadAll();
+        },
+        error: function (error) {
+            loadAll();
+        }
+    });
+});
