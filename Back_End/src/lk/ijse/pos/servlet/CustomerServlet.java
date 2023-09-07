@@ -68,6 +68,7 @@ public class CustomerServlet extends HttpServlet {
         String address = req.getParameter("cusAddress");
         String salary = req.getParameter("cusSalary");
 
+
         try {
 
             Class.forName("com.mysql.jdbc.Driver");
@@ -93,14 +94,16 @@ public class CustomerServlet extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        resp.addHeader("Content-Type","application/json");
         resp.addHeader("Access-Control-Allow-Origin","*");
 
-        String id = req.getParameter("cusID");
-        String name = req.getParameter("cusName");
-        String address = req.getParameter("cusAddress");
-        String salary = req.getParameter("cusSalary");
+        JsonReader reader = Json.createReader(req.getReader());
+        JsonObject jsonObject = reader.readObject();
 
-        System.out.println(salary);
+        String id = jsonObject.getString("id");
+        String name = jsonObject.getString("name");
+        String address = jsonObject.getString("address");
+        String salary = jsonObject.getString("salary");
 
         try {
 
@@ -122,6 +125,19 @@ public class CustomerServlet extends HttpServlet {
         }
 
     }
+
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        resp.addHeader("Access-Control-Allow-Origin","*");
+
+        String id = req.getParameter("cusId");
+
+
+
+    }
+
 
     @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

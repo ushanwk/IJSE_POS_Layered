@@ -51,19 +51,29 @@ $('#btnCusAdd').click(function(){
 
 
 $('#btnCusUpdate').click(function(){
-    let data = $('#customerForm').serialize();
+    let cusId = $('#txtCustomerID').val();
+    let cusName = $('#txtCustomerName').val();
+    let cusAddress = $('#txtCustomerAddress').val();
+    let cusSalary = $('#txtCustomerSalary').val();
 
-    console.log(data)
+    let customer = {
+        id : cusId,
+        name : cusName,
+        address : cusAddress,
+        salary : cusSalary
+    }
 
     $.ajax({
         url : link,
         method : "put",
-        data : data,
-        success : function() {
+        data : JSON.stringify(customer),
+        contentType : 'application/json',
+        success:function(e){
             loadAll();
         },
         error : function() {
             loadAll();
         }
     });
+
 });
