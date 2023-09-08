@@ -63,6 +63,35 @@ public class ItemServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        resp.addHeader("Access-Control-Allow-Origin","*");
+
+        String itemCode = req.getParameter("code");
+        String itemName = req.getParameter("description");
+        String itemQty = req.getParameter("itemQty");
+        String itemPrice = req.getParameter("unitPrice");
+
+        System.out.println(itemCode + itemName +itemPrice + itemQty);
+
+        try {
+
+            Class.forName("com.mysql.jdbc.Driver");
+
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaeePosApp", "root", "ushan1234");
+
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Item VALUES (?, ?, ?, ?)");
+            preparedStatement.setObject(1, itemCode);
+            preparedStatement.setObject(2, itemName);
+            preparedStatement.setObject(3, Integer.parseInt(itemQty));
+            preparedStatement.setObject(4, Integer.parseInt(itemPrice));
+
+            preparedStatement.executeUpdate();
+
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 

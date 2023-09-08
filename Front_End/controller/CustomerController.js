@@ -25,7 +25,7 @@ function loadAllCus(){
 
 }
 
-function clearField(){
+function clearCusField(){
     $('#txtCustomerID').val("");
     $('#txtCustomerName').val("");
     $('#txtCustomerAddress').val("");
@@ -78,7 +78,7 @@ $('#btnCusUpdate').click(function(){
         data : JSON.stringify(customer),
         contentType : 'application/json',
         success:function(){
-            loadAll();
+            loadAllCus();
         },
         error : function(){
             loadAllCus();
@@ -105,5 +105,5 @@ $('#btnCusDelete').click(function(){
 
 
 $('#btnCusClear').click(function(){
-    clearField();
+    clearCusField();
 });
