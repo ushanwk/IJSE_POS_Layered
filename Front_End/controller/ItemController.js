@@ -82,3 +82,21 @@ $('#btnItemUpdate').click(function(){
         }
     });
 });
+
+
+$('#btnItemDelete').click(function(){
+    let code = $('#itemCode').val();
+
+    $.ajax({
+        url: linkItem + '?code=' + code,
+        method: "delete",
+        success: function(){
+            clearItemField();
+            loadAllItems()
+        },
+        error: function(){
+            clearItemField();
+            loadAllItems()
+        }
+    });
+});
