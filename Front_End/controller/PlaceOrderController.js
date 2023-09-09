@@ -1,3 +1,5 @@
+let linkOrder = "http://localhost:8080/Back_End_Web_exploded/order";
+
 let allCustomers;
 let allItems;
 let cart;
@@ -41,6 +43,24 @@ function loadAllItemDet(){
             $('#selectItemCode').append(optionItem);
         }
     });
+}
+
+
+function getItemTableDetails(){
+    let rows = $("#orderTable").children().length;
+    var itemDetails = [];
+
+    for (let i = 0; i < rows; i++) {
+        let itemCode = $("#orderTable").children().eq(i).children(":eq(0)").text();
+        let itemName = $("#orderTable").children().eq(i).children(":eq(1)").text();
+        let itemPrice = $("#orderTable").children().eq(i).children(":eq(2)").text();
+        let itemBuyingAmount = $("#orderTable").children().eq(i).children(":eq(2)").text();
+        let itemTotal = $("#orderTable").children().eq(i).children(":eq(4)").text();
+
+        itemDetails.push({itemCode : itemCode, itemName : itemName, itemPrice : itemPrice, itemBuyingAmount : itemBuyingAmount, total : itemTotal});
+    }
+
+    return itemDetails;
 }
 
 
@@ -96,7 +116,38 @@ $('#btnAddToTable').click(function(){
         $('#subtotal').text(tot);
 
     }else{
-        alert("Quntity not enough!!!");
+        alert("Quantity not enough!!!");
     }
 
 });
+
+
+$('#btnSubmitOrder').click(function(){
+    let orderId = ('#txtOrderID').val();
+    let date = ('#txtDate').val();
+    let cusId = ('#orderCustomerID').val();
+    let orderD = getItemTableDetails();
+
+    let order = {
+        orderId : orderId,
+        date : date,
+        cusId : cusId,
+        itemDetails : orderD
+    }
+
+    $.ajax({
+        url : linkOrder,
+        method : "post",
+        dataType : "json",
+        data: JSON.stringify(order),
+        contentType: "application/json",
+        success: function (resp) {
+
+        },
+        error: function (error) {
+
+        }
+    });
+});
+
+
