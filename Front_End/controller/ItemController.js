@@ -53,3 +53,32 @@ $('#btnItemAdd').click(function(){
         }
     });
 });
+
+$('#btnItemUpdate').click(function(){
+    let code = $('#itemCode').val();
+    let name = $('#itemName').val();
+    let qty = $('#itemQty').val();
+    let price = $('#itemPrice').val();
+
+    let item = {
+        code : code,
+        name : name,
+        qty : qty,
+        price : price
+    }
+
+    $.ajax({
+        url : linkItem,
+        method : "put",
+        data : JSON.stringify(item),
+        contentType : 'application/json',
+        success:function(){
+            clearItemField();
+            loadAllItems();
+        },
+        error : function(){
+            clearItemField();
+            loadAllItems();
+        }
+    });
+});

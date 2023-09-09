@@ -78,9 +78,11 @@ $('#btnCusUpdate').click(function(){
         data : JSON.stringify(customer),
         contentType : 'application/json',
         success:function(){
+            clearCusField();
             loadAllCus();
         },
         error : function(){
+            clearCusField();
             loadAllCus();
         }
     });
@@ -95,9 +97,11 @@ $('#btnCusDelete').click(function(){
         url: linkCus + '?cusID=' + cusId,
         method: "delete",
         success: function(){
+            clearCusField();
             loadAllCus();
         },
         error: function(){
+            clearCusField();
             loadAllCus();
         }
     });
