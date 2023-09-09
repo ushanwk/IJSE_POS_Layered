@@ -1,5 +1,6 @@
 let allCustomers;
 let allItems;
+let cart;
 
 loadAllCusDet();
 loadAllItemDet();
@@ -68,4 +69,34 @@ $('#selectItemCode').change(function() {
             $('#txtQTYOnHand').val(allItems[i].qty)
         }
     }
+});
+
+
+$('#btnAddToTable').click(function(){
+
+    let code = $('#txtItemCode').val();
+    let item = $('#txtItemDescription').val();
+    let price = $('#txtItemPrice').val();
+    let qty = $('#txtQty').val();
+    let total = Number(price*qty);
+
+    cart = cart + {code : code, item : item, price : price, qty : qty, total : total}
+
+    let qtyOnHand = $('#txtQTYOnHand').val();
+
+    if(Number(qty) < Number(qtyOnHand)){
+        let row =`<tr><td>${code}</td><td>${item}</td><td>${price}</td><td>${qty}</td><td>${total}</td></tr>`;
+        $('#orderTable').append(row);
+
+        $('#txtQTYOnHand').val(Number(qtyOnHand) - Number(qty));
+
+        let tot = Number( $('#total').val() + total);
+
+        $('#total').text(tot);
+        $('#subtotal').text(tot);
+
+    }else{
+        alert("Quntity not enough!!!");
+    }
+
 });
