@@ -43,7 +43,7 @@ function loadAllItemDet(){
 }
 
 
-$('#selectCusID').change(function() { //the event here is change
+$('#selectCusID').change(function() {
     let id = $(this).val();
 
     for(let i = 0; i < allCustomers.length; i++){
@@ -57,4 +57,15 @@ $('#selectCusID').change(function() { //the event here is change
 });
 
 
+$('#selectItemCode').change(function() {
+    let code = $(this).val();
 
+    for(let i = 0; i < allItems.length; i++){
+        if(allItems[i].code == code){
+            $('#txtItemCode').val(allItems[i].code)
+            $('#txtItemDescription').val(allItems[i].name)
+            $('#txtItemPrice').val(allItems[i].price)
+            $('#txtQTYOnHand').val(allItems[i].qty)
+        }
+    }
+});
