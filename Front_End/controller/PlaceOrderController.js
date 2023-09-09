@@ -123,6 +123,7 @@ $('#btnAddToTable').click(function(){
 
 
 $('#btnSubmitOrder').click(function(){
+    console.log(('#txtOrderID').val())//////////////////Error
     let orderId = ('#txtOrderID').val();
     let date = ('#txtDate').val();
     let cusId = ('#orderCustomerID').val();
@@ -138,7 +139,6 @@ $('#btnSubmitOrder').click(function(){
     $.ajax({
         url : linkOrder,
         method : "post",
-        dataType : "json",
         data: JSON.stringify(order),
         contentType: "application/json",
         success: function (resp) {
