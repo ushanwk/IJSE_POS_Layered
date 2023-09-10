@@ -21,4 +21,13 @@ public class CustomerBoImpl implements CustomerBo {
 
     }
 
+    @Override
+    public void updateCustomer(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException {
+
+        Customer customer = new Customer(customerDTO.getCusId(), customerDTO.getCusName(), customerDTO.getCusAddress(), customerDTO.getCusSalary());
+
+        customerDao.update(customer);
+
+    }
+
 }

@@ -40,4 +40,35 @@ public class CustomerDaoImpl implements CustomerDao {
 
     }
 
+    @Override
+    public boolean update(Customer entity) throws SQLException, ClassNotFoundException {
+
+        String id = entity.getCusId();
+        String name = entity.getCusName();
+        String address = entity.getCusAddress();
+        int salary = entity.getCusSalary();
+
+        try {
+
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaeePosApp", "root", "ushan1234");
+
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Customer SET CustomerName=?, CustomerAddress=?, CustomerSalary=? WHERE CustomerId=?");
+            preparedStatement.setObject(1, name);
+            preparedStatement.setObject(2, address);
+            preparedStatement.setObject(3, salary);
+            preparedStatement.setObject(4, id);
+
+            preparedStatement.executeUpdate();
+
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return true;
+
+    }
+
 }
