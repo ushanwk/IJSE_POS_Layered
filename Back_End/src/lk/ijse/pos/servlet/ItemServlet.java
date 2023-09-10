@@ -85,26 +85,6 @@ public class ItemServlet extends HttpServlet{
             throw new RuntimeException(e);
         }
 
-//        try {
-//
-//            Class.forName("com.mysql.jdbc.Driver");
-//
-//            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaeePosApp", "root", "ushan1234");
-//
-//            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Item VALUES (?, ?, ?, ?)");
-//            preparedStatement.setObject(1, itemCode);
-//            preparedStatement.setObject(2, itemName);
-//            preparedStatement.setObject(3, Integer.parseInt(itemQty));
-//            preparedStatement.setObject(4, Integer.parseInt(itemPrice));
-//
-//            preparedStatement.executeUpdate();
-//
-//        } catch (ClassNotFoundException e) {
-//            throw new RuntimeException(e);
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-
     }
 
 
@@ -122,24 +102,37 @@ public class ItemServlet extends HttpServlet{
         String qty = jsonObject.getString("qty");
         String price = jsonObject.getString("price");
 
+        ItemDTO itemDTO = new ItemDTO(code, name, Integer.parseInt(qty), Integer.parseInt(price));
+
         try {
 
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaeePosApp", "root", "ushan1234");
+            itemBo.updateItem(itemDTO);
 
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Item SET ItemName=?, ItemQty=?, ItemPrice=? WHERE ItemCode=?");
-            preparedStatement.setObject(1, name);
-            preparedStatement.setObject(2, Integer.parseInt(qty));
-            preparedStatement.setObject(3, Integer.parseInt(price));
-            preparedStatement.setObject(4, code);
-
-            preparedStatement.executeUpdate();
-
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
+
+
+//        try {
+//
+//            Class.forName("com.mysql.jdbc.Driver");
+//            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaeePosApp", "root", "ushan1234");
+//
+//            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Item SET ItemName=?, ItemQty=?, ItemPrice=? WHERE ItemCode=?");
+//            preparedStatement.setObject(1, name);
+//            preparedStatement.setObject(2, Integer.parseInt(qty));
+//            preparedStatement.setObject(3, Integer.parseInt(price));
+//            preparedStatement.setObject(4, code);
+//
+//            preparedStatement.executeUpdate();
+//
+//        } catch (ClassNotFoundException e) {
+//            throw new RuntimeException(e);
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
 
     }
 

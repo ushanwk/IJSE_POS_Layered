@@ -20,6 +20,8 @@ public class ItemBoImpl implements ItemBo {
     @Override
     public void updateItem(ItemDTO itemDTO) throws SQLException, ClassNotFoundException {
 
+        itemDao.update(new Item(itemDTO.getItemCode(), itemDTO.getItemName(), itemDTO.getItemQty(), itemDTO.getItemPrice()));
+
     }
 
     @Override
