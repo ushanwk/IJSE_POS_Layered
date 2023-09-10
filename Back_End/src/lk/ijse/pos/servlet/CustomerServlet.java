@@ -1,5 +1,7 @@
 package lk.ijse.pos.servlet;
 
+import lk.ijse.pos.bo.BoFactory;
+import lk.ijse.pos.bo.custom.CustomerBo;
 import lk.ijse.pos.model.CustomerDTO;
 
 import javax.json.*;
@@ -13,8 +15,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
 
+
 @WebServlet(urlPatterns = {"/customer"})
 public class CustomerServlet extends HttpServlet {
+
+    CustomerBo customerBo = (CustomerBo) BoFactory.getBoFactory().getBO(BoFactory.BOTypes.CUSTOMER);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -70,25 +76,37 @@ public class CustomerServlet extends HttpServlet {
         String address = req.getParameter("cusAddress");
         String salary = req.getParameter("cusSalary");
 
+        CustomerDTO customerDTO = new CustomerDTO(id, name, address, Integer.parseInt(salary));
 
         try {
 
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaeePosApp", "root", "ushan1234");
+            customerBo.addCustomer(customerDTO);
 
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Customer VALUES (?, ?, ?, ?)");
-            preparedStatement.setObject(1, id);
-            preparedStatement.setObject(2, name);
-            preparedStatement.setObject(3, address);
-            preparedStatement.setObject(4, Integer.parseInt(salary));
-
-            preparedStatement.executeUpdate();
-
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
+
+
+//        try {
+//
+//            Class.forName("com.mysql.jdbc.Driver");
+//            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaeePosApp", "root", "ushan1234");
+//
+//            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Customer VALUES (?, ?, ?, ?)");
+//            preparedStatement.setObject(1, id);
+//            preparedStatement.setObject(2, name);
+//            preparedStatement.setObject(3, address);
+//            preparedStatement.setObject(4, Integer.parseInt(salary));
+//
+//            preparedStatement.executeUpdate();
+//
+//        } catch (ClassNotFoundException e) {
+//            throw new RuntimeException(e);
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
 
     }
 

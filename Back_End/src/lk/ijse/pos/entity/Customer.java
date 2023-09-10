@@ -6,6 +6,13 @@ public class Customer {
     private String cusAddress;
     private int cusSalary;
 
+    public Customer(String cusId, String cusName, String cusAddress, int cusSalary) {
+        this.cusId = cusId;
+        this.cusName = cusName;
+        this.cusAddress = cusAddress;
+        this.cusSalary = cusSalary;
+    }
+
     public String getCusId() {
         return cusId;
     }
