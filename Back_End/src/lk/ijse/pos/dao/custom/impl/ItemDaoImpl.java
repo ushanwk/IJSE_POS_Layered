@@ -64,6 +64,24 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public boolean delete(String id) throws SQLException, ClassNotFoundException {
-        return false;
+
+        try {
+
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaeePosApp", "root", "ushan1234");
+
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM Item WHERE ItemCode=?");
+            preparedStatement.setObject(1, id);
+
+            preparedStatement.executeUpdate();
+
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return true;
+
     }
 }

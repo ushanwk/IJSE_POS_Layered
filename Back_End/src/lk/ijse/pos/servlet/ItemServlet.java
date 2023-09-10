@@ -114,26 +114,6 @@ public class ItemServlet extends HttpServlet{
             throw new RuntimeException(e);
         }
 
-
-//        try {
-//
-//            Class.forName("com.mysql.jdbc.Driver");
-//            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaeePosApp", "root", "ushan1234");
-//
-//            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Item SET ItemName=?, ItemQty=?, ItemPrice=? WHERE ItemCode=?");
-//            preparedStatement.setObject(1, name);
-//            preparedStatement.setObject(2, Integer.parseInt(qty));
-//            preparedStatement.setObject(3, Integer.parseInt(price));
-//            preparedStatement.setObject(4, code);
-//
-//            preparedStatement.executeUpdate();
-//
-//        } catch (ClassNotFoundException e) {
-//            throw new RuntimeException(e);
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-
     }
 
 
@@ -143,23 +123,31 @@ public class ItemServlet extends HttpServlet{
 
         String code = req.getParameter("code");
 
-        System.out.println(code);
-
         try {
 
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaeePosApp", "root", "ushan1234");
+            itemBo.deleteItem(code);
 
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM Item WHERE ItemCode=?");
-            preparedStatement.setObject(1, code);
-
-            preparedStatement.executeUpdate();
-
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
+
+//        try {
+//
+//            Class.forName("com.mysql.jdbc.Driver");
+//            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaeePosApp", "root", "ushan1234");
+//
+//            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM Item WHERE ItemCode=?");
+//            preparedStatement.setObject(1, code);
+//
+//            preparedStatement.executeUpdate();
+//
+//        } catch (ClassNotFoundException e) {
+//            throw new RuntimeException(e);
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
 
     }
 

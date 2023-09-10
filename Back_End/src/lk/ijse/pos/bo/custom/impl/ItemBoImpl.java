@@ -27,5 +27,7 @@ public class ItemBoImpl implements ItemBo {
     @Override
     public void deleteItem(String code) throws SQLException, ClassNotFoundException {
 
+        itemDao.delete(code);
+
     }
 }
