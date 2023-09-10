@@ -1,5 +1,9 @@
 package lk.ijse.pos.servlet;
 
+import lk.ijse.pos.bo.BoFactory;
+import lk.ijse.pos.bo.custom.ItemBo;
+import lk.ijse.pos.model.ItemDTO;
+
 import javax.json.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +16,8 @@ import java.sql.*;
 
 @WebServlet(urlPatterns = {"/item"})
 public class ItemServlet extends HttpServlet{
+
+    ItemBo itemBo = (ItemBo) BoFactory.getBoFactory().getBO(BoFactory.BOTypes.ITEM);
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -67,27 +73,37 @@ public class ItemServlet extends HttpServlet{
         String itemQty = req.getParameter("itemQty");
         String itemPrice = req.getParameter("unitPrice");
 
-        System.out.println(itemCode + itemName +itemPrice + itemQty);
+        ItemDTO itemDTO = new ItemDTO(itemCode, itemName, Integer.parseInt(itemQty), Integer.parseInt(itemPrice));
 
         try {
 
-            Class.forName("com.mysql.jdbc.Driver");
+            itemBo.addCItem(itemDTO);
 
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaeePosApp", "root", "ushan1234");
-
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Item VALUES (?, ?, ?, ?)");
-            preparedStatement.setObject(1, itemCode);
-            preparedStatement.setObject(2, itemName);
-            preparedStatement.setObject(3, Integer.parseInt(itemQty));
-            preparedStatement.setObject(4, Integer.parseInt(itemPrice));
-
-            preparedStatement.executeUpdate();
-
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
+
+//        try {
+//
+//            Class.forName("com.mysql.jdbc.Driver");
+//
+//            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaeePosApp", "root", "ushan1234");
+//
+//            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Item VALUES (?, ?, ?, ?)");
+//            preparedStatement.setObject(1, itemCode);
+//            preparedStatement.setObject(2, itemName);
+//            preparedStatement.setObject(3, Integer.parseInt(itemQty));
+//            preparedStatement.setObject(4, Integer.parseInt(itemPrice));
+//
+//            preparedStatement.executeUpdate();
+//
+//        } catch (ClassNotFoundException e) {
+//            throw new RuntimeException(e);
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
 
     }
 
