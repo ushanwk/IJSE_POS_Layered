@@ -30,4 +30,11 @@ public class CustomerBoImpl implements CustomerBo {
 
     }
 
+    @Override
+    public void deleteCustomer(String id) throws SQLException, ClassNotFoundException {
+
+        customerDao.delete(id);
+
+    }
+
 }

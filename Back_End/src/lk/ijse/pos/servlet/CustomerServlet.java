@@ -117,24 +117,6 @@ public class CustomerServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
 
-//        try {
-//
-//            Class.forName("com.mysql.jdbc.Driver");
-//            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaeePosApp", "root", "ushan1234");
-//
-//            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Customer SET CustomerName=?, CustomerAddress=?, CustomerSalary=? WHERE CustomerId=?");
-//            preparedStatement.setObject(1, name);
-//            preparedStatement.setObject(2, address);
-//            preparedStatement.setObject(3, Integer.parseInt(salary));
-//            preparedStatement.setObject(4, id);
-//
-//            preparedStatement.executeUpdate();
-//
-//        } catch (ClassNotFoundException e) {
-//            throw new RuntimeException(e);
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
 
     }
 
@@ -146,23 +128,31 @@ public class CustomerServlet extends HttpServlet {
 
         String id = req.getParameter("cusID");
 
-        System.out.println(id);
-
         try {
 
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaeePosApp", "root", "ushan1234");
+            customerBo.deleteCustomer(id);
 
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM Customer WHERE CustomerId=?");
-            preparedStatement.setObject(1, id);
-
-            preparedStatement.executeUpdate();
-
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
+
+//        try {
+//
+//            Class.forName("com.mysql.jdbc.Driver");
+//            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaeePosApp", "root", "ushan1234");
+//
+//            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM Customer WHERE CustomerId=?");
+//            preparedStatement.setObject(1, id);
+//
+//            preparedStatement.executeUpdate();
+//
+//        } catch (ClassNotFoundException e) {
+//            throw new RuntimeException(e);
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
 
     }
 
