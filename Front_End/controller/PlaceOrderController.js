@@ -122,32 +122,32 @@ $('#btnAddToTable').click(function(){
 });
 
 
-$('#btnSubmitOrder').click(function(){
-    console.log(('#txtOrderID').val())//////////////////Error
-    let orderId = ('#txtOrderID').val();
-    let date = ('#txtDate').val();
-    let cusId = ('#orderCustomerID').val();
-    let orderD = getItemTableDetails();
-
-    let order = {
-        orderId : orderId,
-        date : date,
-        cusId : cusId,
-        itemDetails : orderD
-    }
-
-    $.ajax({
-        url : linkOrder,
-        method : "post",
-        data: JSON.stringify(order),
-        contentType: "application/json",
-        success: function (resp) {
-
-        },
-        error: function (error) {
-
-        }
-    });
-});
+// $('#btnSubmitOrder').click(function(){
+//     console.log(('#txtOrderID').val())
+//     let orderId = ('#txtOrderID').val();
+//     let date = ('#txtDate').val();
+//     let cusId = ('#orderCustomerID').val();
+//     let orderD = getItemTableDetails();
+//
+//     let order = {
+//         orderId : orderId,
+//         date : date,
+//         cusId : cusId,
+//         itemDetails : orderD
+//     }
+//
+//     $.ajax({
+//         url : linkOrder,
+//         method : "post",
+//         data: JSON.stringify(order),
+//         contentType: "application/json",
+//         success: function (resp) {
+//
+//         },
+//         error: function (error) {
+//
+//         }
+//     });
+// });
 
 

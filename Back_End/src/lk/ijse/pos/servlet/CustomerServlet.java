@@ -1,5 +1,7 @@
 package lk.ijse.pos.servlet;
 
+import lk.ijse.pos.model.CustomerDTO;
+
 import javax.json.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
