@@ -2,10 +2,13 @@ let linkOrder = "http://localhost:8080/Back_End_Web_exploded/order";
 
 let allCustomers;
 let allItems;
-let cart;
 
 loadAllCusDet();
 loadAllItemDet();
+
+$('#txtCash').val("0");
+$('#txtDiscount').val("0");
+$('#txtBalance').val("0");
 
 
 function loadAllCusDet(){
@@ -46,21 +49,19 @@ function loadAllItemDet(){
 }
 
 
-function getItemTableDetails(){
+function getItemDetails() {
     let rows = $("#orderTable").children().length;
-    var itemDetails = [];
+    var cart = [];
 
     for (let i = 0; i < rows; i++) {
-        let itemCode = $("#orderTable").children().eq(i).children(":eq(0)").text();
-        let itemName = $("#orderTable").children().eq(i).children(":eq(1)").text();
-        let itemPrice = $("#orderTable").children().eq(i).children(":eq(2)").text();
-        let itemBuyingAmount = $("#orderTable").children().eq(i).children(":eq(2)").text();
-        let itemTotal = $("#orderTable").children().eq(i).children(":eq(4)").text();
-
-        itemDetails.push({itemCode : itemCode, itemName : itemName, itemPrice : itemPrice, itemBuyingAmount : itemBuyingAmount, total : itemTotal});
+        let itCode = $("#orderTable").children().eq(i).children(":eq(0)").text();
+        let avQty = $("#orderTable").children().eq(i).children(":eq(3)").text();
+        let itQty = $("#orderTable").children().eq(i).children(":eq(4)").text();
+        let itPrice = $("#orderTable").children().eq(i).children(":eq(2)").text();
+        cart.push({code: itCode, avQty:avQty, qty: itQty, price: itPrice});
     }
 
-    return itemDetails;
+    return cart;
 }
 
 
@@ -92,62 +93,85 @@ $('#selectItemCode').change(function() {
 });
 
 
-$('#btnAddToTable').click(function(){
+$("#btnAddToTable").click(function () {
 
-    let code = $('#txtItemCode').val();
-    let item = $('#txtItemDescription').val();
-    let price = $('#txtItemPrice').val();
-    let qty = $('#txtQty').val();
-    let total = Number(price*qty);
+    let code = $("#selectItemCode").val();
+    let description = $("#txtItemDescription").val();
+    let itemPrice = $("#txtItemPrice").val();
+    let buyQty = $("#txtQty").val();
+    let avQty = $("#txtQTYOnHand").val();
+    let total = parseFloat(itemPrice) * parseFloat(buyQty);
+    $("#orderTable").append(`<tr><td>${code}</td><td>${description}</td><td>${itemPrice}</td><td>${avQty}</td><td>${buyQty}</td><td>${total}</td></tr>`);
 
-    cart = cart + {code : code, item : item, price : price, qty : qty, total : total}
+    let tot = Number($('#txtCash').val()) + total;
+    let subTot = Number($('#txtCash').val()) + total - Number($('#txtDiscount').val());
 
-    let qtyOnHand = $('#txtQTYOnHand').val();
+    $('#total').text(tot);
+    $('#subtotal').text(subTot);
 
-    if(Number(qty) < Number(qtyOnHand)){
-        let row =`<tr><td>${code}</td><td>${item}</td><td>${price}</td><td>${qty}</td><td>${total}</td></tr>`;
-        $('#orderTable').append(row);
+});
 
-        $('#txtQTYOnHand').val(Number(qtyOnHand) - Number(qty));
 
-        let tot = Number( $('#total').val() + total);
+$("#txtDiscount").on("change paste keyup", function() {
 
-        $('#total').text(tot);
-        $('#subtotal').text(tot);
+    $("#subtotal").text(parseInt($('#total').text()) - parseInt($("#txtDiscount").val()));
 
-    }else{
-        alert("Quantity not enough!!!");
+    if(parseInt($("#subtotal").text()) < 0){
+        $("#subtotal").text("0");
+    }
+
+    $("#txtBalance").val(parseInt($('#txtCash').val()) - parseInt($("#subtotal").text()));
+
+    if(parseInt($("#txtBalance").val()) < 0){
+        $("#txtBalance").val("0");
     }
 
 });
 
 
-// $('#btnSubmitOrder').click(function(){
-//     console.log(('#txtOrderID').val())
-//     let orderId = ('#txtOrderID').val();
-//     let date = ('#txtDate').val();
-//     let cusId = ('#orderCustomerID').val();
-//     let orderD = getItemTableDetails();
-//
-//     let order = {
-//         orderId : orderId,
-//         date : date,
-//         cusId : cusId,
-//         itemDetails : orderD
-//     }
-//
-//     $.ajax({
-//         url : linkOrder,
-//         method : "post",
-//         data: JSON.stringify(order),
-//         contentType: "application/json",
-//         success: function (resp) {
-//
-//         },
-//         error: function (error) {
-//
-//         }
-//     });
-// });
+$("#txtCash").on("change paste keyup", function() {
+
+    $("#txtBalance").val(parseInt($('#txtCash').val()) - parseInt($("#subtotal").text()));
+
+    if(parseInt($("#txtBalance").val()) < 0){
+        $("#txtBalance").val("0");
+    }
+
+    $("#subtotal").text(parseInt($('#total').text()) - parseInt($("#txtDiscount").val()));
+
+    if(parseInt($("#subtotal").text()) < 0){
+        $("#subtotal").text("0");
+    }
+
+});
 
 
+$('#btnSubmitOrder').click(function(){
+
+    let orderId = $('#txtOrderID').val();
+    let date = $('#txtDate').val();
+    let cusId = $('#orderCustomerID').val();
+    let itemD = getItemDetails();
+
+    let allData = {
+        orderId : orderId,
+        date : date,
+        cusId : cusId,
+        itemDet : itemD
+    }
+
+    $.ajax({
+        url: linkOrder,
+        method: "post",
+        dataType: "json",
+        data: JSON.stringify(allData),
+        contentType: "application/json",
+        success: function (resp) {
+
+        },
+        error: function (error) {
+
+        }
+    });
+
+});
